@@ -12,6 +12,7 @@ namespace ZoomLoginer
     {
         public BaseForm()
         {
+            Icon = new Icon("icon.ico");
             Text = "ZoomLoginer";
             DoubleBuffered = true;
             BackColor = Color.FromArgb(28,28,28);

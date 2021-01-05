@@ -21,6 +21,14 @@ namespace ZoomLoginer
             {
                 GenerateButton(days[i], new Point(350, i * 70 + 40));
             }
+
+            setForm.FormClosing += SetForm_FormClosing;
+        }
+
+        private void SetForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            setForm.Hide(); 
+            e.Cancel = true;
         }
 
         private void GenerateButton(string buttonName, Point location)
@@ -34,7 +42,7 @@ namespace ZoomLoginer
                 Location = location,
             };
 
-            btn.Click += Btn_Click; ;
+            btn.Click += Btn_Click;
 
             Controls.Add(btn);
         }
