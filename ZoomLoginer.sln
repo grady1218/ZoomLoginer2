@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30804.86
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ZoomLoginer", "ZoomLoginer\ZoomLoginer.csproj", "{A966EB94-FED3-4F51-8EFB-30CC315F251F}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A966EB94-FED3-4F51-8EFB-30CC315F251F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A966EB94-FED3-4F51-8EFB-30CC315F251F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A966EB94-FED3-4F51-8EFB-30CC315F251F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A966EB94-FED3-4F51-8EFB-30CC315F251F}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {F58BF21D-1F0D-444F-B71B-26F94F94216E}
+	EndGlobalSection
+EndGlobal
