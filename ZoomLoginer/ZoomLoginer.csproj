@@ -5,7 +5,7 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{A966EB94-FED3-4F51-8EFB-30CC315F251F}</ProjectGuid>
-    <OutputType>Exe</OutputType>
+    <OutputType>WinExe</OutputType>
     <RootNamespace>ZoomLoginer</RootNamespace>
     <AssemblyName>ZoomLoginer</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>

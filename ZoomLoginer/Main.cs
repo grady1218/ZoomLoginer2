@@ -51,8 +51,6 @@ namespace ZoomLoginer
             Console.WriteLine(DateTime.Now);
             for(var i = 0; i < EventProcessor.Times.Count; i++ )
             {
-                Console.WriteLine(EventProcessor.Times[i]);
-
                 if (DateTime.Now.ToLongTimeString() == EventProcessor.Times[i].AddMinutes(-5).ToLongTimeString())
                 {
                     NotifyIcon.ShowBalloonTip(5000, "お知らせ", $"{EventProcessor.EventNames[i]}の五分前になりました。", ToolTipIcon.Info);
