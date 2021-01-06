@@ -35,7 +35,7 @@ namespace ZoomLoginer
             }
             catch
             {
-                MessageBox.Show("ファイルを読み込めませんでした");
+                //  MessageBox.Show("ファイルを読み込めませんでした");
             }
         }
 

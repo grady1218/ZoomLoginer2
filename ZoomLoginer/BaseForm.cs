@@ -12,6 +12,11 @@ namespace ZoomLoginer
     {
         public BaseForm()
         {
+            StartPosition = FormStartPosition.CenterScreen;
+            FormBorderStyle = FormBorderStyle.FixedSingle;
+            MaximizeBox = !MaximizeBox;
+            MinimizeBox = !MinimizeBox;
+
             Icon = new Icon("icon.ico");
             Text = "ZoomLoginer";
             DoubleBuffered = true;

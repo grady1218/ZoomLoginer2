@@ -15,9 +15,8 @@ namespace ZoomLoginer
 
             SelectEvent = new SelectEvent()
             {
-                Size = new Size(475,300),
-                Location = new Point(50, 150),
-                BackColor = Color.FromArgb(60, 60, 60)
+                Size = new Size(475,325),
+                Location = new Point(50, 125),
             };
 
             Button button = new Button
@@ -39,6 +38,12 @@ namespace ZoomLoginer
             SelectEvent.Load(WeekDay);
             Controls.Add(SelectEvent);
             Controls.Add(button);
+        }
+
+        protected override void OnPaint(PaintEventArgs e)
+        {
+            base.OnPaint(e);
+            e.Graphics.DrawString($"編集中 : {WeekDay}曜日", new Font("メイリオ", 30), Brushes.White, new Point(20, 50));
         }
 
     }
