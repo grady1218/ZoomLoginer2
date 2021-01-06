@@ -57,6 +57,9 @@
     <Compile Include="Schedule.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="SelectEvent.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="SetScheduleForm.cs">
       <SubType>Form</SubType>
     </Compile>
