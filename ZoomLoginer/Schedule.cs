@@ -13,7 +13,7 @@ namespace ZoomLoginer
         string[] eDays = { "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Sutrday", "Sunday"};
         string[] days = { "月", "火", "水", "木", "金", "土", "日" };
 
-        SetScheduleForm setForm = new SetScheduleForm();
+        SetScheduleForm setForm;
 
         public Schedule()
         {
@@ -21,14 +21,6 @@ namespace ZoomLoginer
             {
                 GenerateButton(days[i], new Point(350, i * 70 + 40));
             }
-
-            setForm.FormClosing += SetForm_FormClosing;
-        }
-
-        private void SetForm_FormClosing(object sender, FormClosingEventArgs e)
-        {
-            setForm.Hide(); 
-            e.Cancel = true;
         }
 
         private void GenerateButton(string buttonName, Point location)
@@ -62,7 +54,8 @@ namespace ZoomLoginer
         private void Btn_Click(object sender, EventArgs e)
         {
             var btn = (Button)sender;
-            setForm.WeekDay = btn.Text;
+
+            setForm = new SetScheduleForm(btn.Text);
             setForm.Show();
         }
     }

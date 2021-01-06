@@ -15,6 +15,7 @@ namespace ZoomLoginer
             Icon = new Icon("icon.ico");
             Text = "ZoomLoginer";
             DoubleBuffered = true;
+            
             BackColor = Color.FromArgb(28,28,28);
             Size = new Size(600, 600);
         }
