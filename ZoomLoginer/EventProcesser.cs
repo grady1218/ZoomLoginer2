@@ -15,6 +15,14 @@ namespace ZoomLoginer
         public static List<DateTime> Times = new List<DateTime>();
         public static List<string> URLs = new List<string>();
         public static List<string> EventNames = new List<string>();
+
+        enum DisassembleMode
+        {
+            NormalEvent,
+            SpecialEvent,
+            FreeEvent
+        }
+
         public static void GetToday()
         {
             for (int i = 0; i < eDays.Length; i++)
@@ -30,7 +38,14 @@ namespace ZoomLoginer
         {
             try
             {
-                Disassembly(File.ReadAllLines($"./data/{JapaneseToday}.zl"));
+                Times = new List<DateTime>();
+                URLs = new List<string>();
+                EventNames = new List<string>();
+
+                Disassembly(File.ReadAllLines($"./data/{JapaneseToday}.zl"), DisassembleMode.NormalEvent);
+                Disassembly(File.ReadAllLines($"./data/event.zl"), DisassembleMode.SpecialEvent);
+                Disassembly(File.ReadAllLines($"./data/free.zl"), DisassembleMode.FreeEvent);
+                
             }
             catch
             {
@@ -38,28 +53,115 @@ namespace ZoomLoginer
             }
         }
         
-        static void Disassembly(string[] data)
+        static void Disassembly(string[] data, DisassembleMode mode)
+        {
+
+            switch (mode)
+            {
+                case DisassembleMode.NormalEvent:
+                    NormalEventProcess(data);
+                    break;
+
+                case DisassembleMode.SpecialEvent:
+                    SpecialEventProcess(data);
+                    break;
+
+                case DisassembleMode.FreeEvent:
+                    FreeEventProcess(data);
+                    break;
+
+                default:
+                    break;
+            }
+            
+        }
+
+        static void NormalEventProcess(string[] data)
         {
             var Today = DateTime.Today;
             foreach (var infos in data)
             {
                 var info = infos.Split(',');
-                if(info.Length == 4)
+                if (info.Length == 4)
                 {
                     try
                     {
                         var dayInfo = info[2].Split(':');
-                        if(dayInfo.Length == 2)
+                        if (dayInfo.Length == 2)
                         {
-                            Times.Add(new DateTime(Today.Year,Today.Month,Today.Day,int.Parse(dayInfo[0]),int.Parse(dayInfo[1]),0));
+                            Times.Add(new DateTime(Today.Year, Today.Month, Today.Day, int.Parse(dayInfo[0]), int.Parse(dayInfo[1]), 0));
                             EventNames.Add(info[0]);
                             URLs.Add(info[1]);
                         }
-                        else if(dayInfo.Length == 3)
+                        else if (dayInfo.Length == 3)
                         {
-                            Times.Add(new DateTime(Today.Year,Today.Month,Today.Day,int.Parse(dayInfo[0]),int.Parse(dayInfo[1]), int.Parse(dayInfo[2])));
+                            Times.Add(new DateTime(Today.Year, Today.Month, Today.Day, int.Parse(dayInfo[0]), int.Parse(dayInfo[1]), int.Parse(dayInfo[2])));
                             EventNames.Add(info[0]);
                             URLs.Add(info[1]);
+                        }
+                    }
+                    catch
+                    {
+                        return;
+                    }
+                }
+            }
+        }
+        static void SpecialEventProcess(string[] data)
+        {
+            var Today = DateTime.Today;
+            foreach (var infos in data)
+            {
+                var info = infos.Split(',');
+                if (info.Length == 5)
+                {
+                    
+                    if (!(DateTime.Today.ToString("MM/dd") == info[0] || DateTime.Today.ToString("MM月dd日") == info[0])) continue;  //  曜日が違っていたらcontinueする
+
+                    try
+                    {
+                        var dayInfo = info[3].Split(':');
+                        if (dayInfo.Length == 2)
+                        {
+                            Times.Add(new DateTime(Today.Year, Today.Month, Today.Day, int.Parse(dayInfo[0]), int.Parse(dayInfo[1]), 0));
+                            EventNames.Add(info[1]);
+                            URLs.Add(info[2]);
+                        }
+                        else if (dayInfo.Length == 3)
+                        {
+                            Times.Add(new DateTime(Today.Year, Today.Month, Today.Day, int.Parse(dayInfo[0]), int.Parse(dayInfo[1]), int.Parse(dayInfo[2])));
+                            EventNames.Add(info[1]);
+                            URLs.Add(info[2]);
+                        }
+                    }
+                    catch
+                    {
+                        return;
+                    }
+                }
+            }
+        }
+        static void FreeEventProcess(string[] data)
+        {
+            foreach (var infos in data)
+            {
+                var info = infos.Split(',');
+                if (info.Length == 3)
+                {
+
+                    if (!(DateTime.Today.ToString("MM/dd") == info[0] || DateTime.Today.ToString("MM月dd日") == info[0])) continue;  //  曜日が違っていたらcontinueする
+
+                    try
+                    {
+                        for(int i = 0; i < EventNames.Count; i++)
+                        {
+                            if(EventNames[i] == info[1])
+                            {
+                                URLs.RemoveAt(i);
+                                Times.RemoveAt(i);
+                                EventNames.RemoveAt(i);
+                                i -= 1;
+                            }
                         }
                     }
                     catch

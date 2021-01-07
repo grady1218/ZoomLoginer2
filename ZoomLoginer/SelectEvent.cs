@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using System.Windows.Forms;
-using System.Drawing;
 using System.IO;
 
 namespace ZoomLoginer
@@ -44,7 +39,7 @@ namespace ZoomLoginer
             foreach(var i in data)
             {
                 var info = i.Split(',');
-                if(info.Length == 4) Rows.Add(info);
+                if(info.Length == ColumnCount + 1) Rows.Add(info);
             }
         }
 
@@ -54,11 +49,13 @@ namespace ZoomLoginer
             for(int i = 0; i < Rows.Count - 1; i++)
             {
                 string str = "";
-                for(int j = 0; j < 3; j++) str += (string)Rows[i].Cells[j].Value + ",";
+                for(int j = 0; j < ColumnCount; j++) str += (string)Rows[i].Cells[j].Value + ",";
                 dList.Add(str);
             }
 
             File.WriteAllLines($"./data/{day}.zl",dList.ToArray());
+
+            EventProcessor.Load();
         }
 
     }

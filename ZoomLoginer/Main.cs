@@ -2,8 +2,6 @@
 using System.Windows.Forms;
 using System.Diagnostics;
 using System.Drawing;
-using Microsoft.Toolkit.Uwp.Notifications;
-using Windows.UI.Notifications;
 
 namespace ZoomLoginer
 {
@@ -19,7 +17,7 @@ namespace ZoomLoginer
             EventProcessor.GetToday();
             EventProcessor.Load();
 
-            forms = new Form[] { new Schedule() };
+            forms = new Form[4];
 
             AddTask();//  タスクトレイに追加する
 
@@ -35,22 +33,15 @@ namespace ZoomLoginer
             };
 
             timer.Tick += Timer_Tick;
-
-            foreach(var f in forms)
-            {
-                f.FormClosing += (object sender, FormClosingEventArgs e) =>
-                {
-                    f.Hide();
-                    e.Cancel = true;
-                };
-            }
         }
 
         private void Timer_Tick(object sender, EventArgs e)
         {
-            Console.WriteLine(DateTime.Now);
-            for(var i = 0; i < EventProcessor.Times.Count; i++ )
+            //  Console.WriteLine(DateTime.Now);
+            EventProcessor.GetToday();
+            for (var i = 0; i < EventProcessor.Times.Count; i++ )
             {
+                //  Console.WriteLine(EventProcessor.Times[i]);
                 if (DateTime.Now.ToLongTimeString() == EventProcessor.Times[i].AddMinutes(-5).ToLongTimeString())
                 {
                     NotifyIcon.ShowBalloonTip(5000, "お知らせ", $"{EventProcessor.EventNames[i]}の五分前になりました。", ToolTipIcon.Info);
@@ -96,7 +87,7 @@ namespace ZoomLoginer
             };
 
             exit.Click += (object sender, EventArgs e) => {
-                Application.Exit();
+                Close();
             };
 
             contextMenuStrip.Items.Add(toolStripItem);
@@ -137,16 +128,25 @@ namespace ZoomLoginer
                 return;
             }
 
-            for (int i = 0; i < buttonNames.Length; i++)
+            switch (formName)
             {
-                if (buttonNames[i] == formName)
-                {
-                    forms[i].Show();
-                    return;
-                }
+                case "スケジュール":
+                    forms[0] = new Schedule();
+                    forms[0].Show();                  
+                    break;
+                case "イベント":
+                    forms[1] = new Event();
+                    forms[1].Show();
+                    break;
+                case "休み":
+                    forms[2] = new Free();
+                    forms[2].Show();
+                    break;
+                case "オプション":
+                    forms[3] = new BaseForm();
+                    forms[3].Show();
+                    break;
             }
-
-            MessageBox.Show("バグ発生！");
         }
 
         protected override void OnPaint(PaintEventArgs e)
