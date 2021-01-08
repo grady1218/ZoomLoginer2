@@ -2,6 +2,7 @@
 using System.Windows.Forms;
 using System.Diagnostics;
 using System.Drawing;
+using System.ComponentModel;
 
 namespace ZoomLoginer
 {
@@ -33,6 +34,14 @@ namespace ZoomLoginer
             };
 
             timer.Tick += Timer_Tick;
+
+        }
+
+        protected override void OnClosing(CancelEventArgs e)
+        {
+            base.OnClosing(e);
+            Hide();
+            e.Cancel = true;
         }
 
         private void Timer_Tick(object sender, EventArgs e)
