@@ -7,10 +7,11 @@ namespace ZoomLoginer
      static class EventProcessor
     {
 
-        public static string[] eDays = { "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Sutrday", "Sunday" };
+        public static string[] eDays = { "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday" };
         public static string[] days = { "月", "火", "水", "木", "金", "土", "日" };
         public static string Today;
         public static string JapaneseToday;
+        public static int PreTime = 5;
 
         public static List<DateTime> Times = new List<DateTime>();
         public static List<string> URLs = new List<string>();
@@ -42,10 +43,21 @@ namespace ZoomLoginer
                 URLs = new List<string>();
                 EventNames = new List<string>();
 
+                //  なんだここ　無駄やんけ
+                /*
                 Disassembly(File.ReadAllLines($"./data/{JapaneseToday}.zl"), DisassembleMode.NormalEvent);
                 Disassembly(File.ReadAllLines($"./data/event.zl"), DisassembleMode.SpecialEvent);
                 Disassembly(File.ReadAllLines($"./data/free.zl"), DisassembleMode.FreeEvent);
-                
+                */
+
+
+                OptionSettings(File.ReadAllLines($"./data/option.zl"));
+                NormalEventProcess(File.ReadAllLines($"./data/{JapaneseToday}.zl"));
+                SpecialEventProcess(File.ReadAllLines($"./data/event.zl"));
+                FreeEventProcess(File.ReadAllLines($"./data/free.zl"));
+
+
+
             }
             catch
             {
@@ -75,7 +87,6 @@ namespace ZoomLoginer
             }
             
         }
-
         static void NormalEventProcess(string[] data)
         {
             var Today = DateTime.Today;
@@ -170,6 +181,10 @@ namespace ZoomLoginer
                     }
                 }
             }
+        }
+        static void OptionSettings(string[] data)
+        {
+            PreTime = int.Parse(data[0]);
         }
      }
 }

@@ -50,13 +50,13 @@ namespace ZoomLoginer
             EventProcessor.GetToday();
             for (var i = 0; i < EventProcessor.Times.Count; i++ )
             {
-                //  Console.WriteLine(EventProcessor.Times[i]);
-                if (DateTime.Now.ToLongTimeString() == EventProcessor.Times[i].AddMinutes(-5).ToLongTimeString())
+                var timeString = DateTime.Now.ToLongTimeString();
+                if (timeString == EventProcessor.Times[i].AddMinutes(-EventProcessor.PreTime).ToLongTimeString())
                 {
-                    NotifyIcon.ShowBalloonTip(5000, "お知らせ", $"{EventProcessor.EventNames[i]}の五分前になりました。", ToolTipIcon.Info);
+                    NotifyIcon.ShowBalloonTip(5000, "お知らせ", $"{EventProcessor.EventNames[i]}の{EventProcessor.PreTime}分前になりました。", ToolTipIcon.Info);
                 }
 
-                if(DateTime.Now.ToLongTimeString() == EventProcessor.Times[i].ToLongTimeString())
+                if(timeString == EventProcessor.Times[i].ToLongTimeString())
                 {
                     try
                     {
@@ -64,7 +64,7 @@ namespace ZoomLoginer
                     }
                     catch
                     {
-                        MessageBox.Show("URLが開けませんでした", "URL Error", System.Windows.Forms.MessageBoxButtons.OK, System.Windows.Forms.MessageBoxIcon.Error);
+                        MessageBox.Show("URLが開けませんでした", "URL Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
                 }
             }
@@ -96,7 +96,7 @@ namespace ZoomLoginer
             };
 
             exit.Click += (object sender, EventArgs e) => {
-                Close();
+                Environment.Exit(0);
             };
 
             contextMenuStrip.Items.Add(toolStripItem);
@@ -104,8 +104,6 @@ namespace ZoomLoginer
             NotifyIcon.ContextMenuStrip = contextMenuStrip;
 
         }
-
-
         private void GenerateButton(string buttonName, Point location)
         {
             Button btn = new Button
@@ -121,13 +119,11 @@ namespace ZoomLoginer
 
             Controls.Add(btn);
         }
-
         private void Btn_Click(object sender, EventArgs e)
         {
             var btn = (Button)sender;
             OpenForm(btn.Text);
         }
-
         private void OpenForm(string formName)
         {
 
@@ -152,15 +148,11 @@ namespace ZoomLoginer
                     forms[2].Show();
                     break;
                 case "オプション":
-                    forms[3] = new BaseForm();
+                    forms[3] = new Option();
                     forms[3].Show();
                     break;
             }
         }
 
-        protected override void OnPaint(PaintEventArgs e)
-        {
-            base.OnPaint(e);
-        }
     }
 }
