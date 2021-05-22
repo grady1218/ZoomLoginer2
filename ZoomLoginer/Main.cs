@@ -20,7 +20,7 @@ namespace ZoomLoginer
 
             forms = new Form[4];
 
-            AddTask();//  タスクトレイに追加する
+            AddTask();
 
             for(int i = 0; i < buttonNames.Length; i++)
             {
@@ -34,42 +34,11 @@ namespace ZoomLoginer
             };
 
             timer.Tick += Timer_Tick;
-
         }
 
-        protected override void OnClosing(CancelEventArgs e)
-        {
-            base.OnClosing(e);
-            Hide();
-            e.Cancel = true;
-        }
-
-        private void Timer_Tick(object sender, EventArgs e)
-        {
-            //  Console.WriteLine(DateTime.Now);
-            EventProcessor.GetToday();
-            for (var i = 0; i < EventProcessor.Times.Count; i++ )
-            {
-                var timeString = DateTime.Now.ToLongTimeString();
-                if (timeString == EventProcessor.Times[i].AddMinutes(-EventProcessor.PreTime).ToLongTimeString())
-                {
-                    NotifyIcon.ShowBalloonTip(5000, "お知らせ", $"{EventProcessor.EventNames[i]}の{EventProcessor.PreTime}分前になりました。", ToolTipIcon.Info);
-                }
-
-                if(timeString == EventProcessor.Times[i].ToLongTimeString())
-                {
-                    try
-                    {
-                        Process.Start(EventProcessor.URLs[i]);
-                    }
-                    catch
-                    {
-                        MessageBox.Show("URLが開けませんでした", "URL Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    }
-                }
-            }
-        }
-
+        /// <summary>
+        /// タスクトレイにアイコンを追加する
+        /// </summary>
         private void AddTask()
         {
             
@@ -103,6 +72,42 @@ namespace ZoomLoginer
             contextMenuStrip.Items.Add(exit);
             NotifyIcon.ContextMenuStrip = contextMenuStrip;
 
+        }
+        protected override void OnClosing(CancelEventArgs e)
+        {
+            base.OnClosing(e);
+            Hide();
+            e.Cancel = true;
+        }
+        private void Timer_Tick(object sender, EventArgs e)
+        {
+            //  日付を取得
+            EventProcessor.GetToday();
+
+            //  時間をfor文で調べる
+            for (var i = 0; i < EventProcessor.Times.Count; i++ )
+            {
+                var timeString = DateTime.Now.ToLongTimeString();
+
+                if (DateTime.Now > EventProcessor.Times[i]) EventProcessor.CurentClassNum = i;
+
+                if (timeString == EventProcessor.Times[i].AddMinutes(-EventProcessor.PreTime).ToLongTimeString())
+                {
+                    NotifyIcon.ShowBalloonTip(5000, "お知らせ", $"{EventProcessor.EventNames[i]}の{EventProcessor.PreTime}分前になりました。", ToolTipIcon.Info);
+                }
+
+                if(timeString == EventProcessor.Times[i].ToLongTimeString())
+                {
+                    try
+                    {
+                        Process.Start(EventProcessor.URLs[i]);
+                    }
+                    catch
+                    {
+                        MessageBox.Show("URLが開けませんでした", "URL Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                }
+            }
         }
         private void GenerateButton(string buttonName, Point location)
         {

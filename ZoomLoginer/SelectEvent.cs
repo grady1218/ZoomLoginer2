@@ -21,11 +21,11 @@ namespace ZoomLoginer
 
         }
 
-        public void Load(string day)
+        public void Load(string FileName)
         {
             try
             {
-                data = File.ReadAllLines($"./data/{day}.zl");
+                data = File.ReadAllLines($"./data/{FileName}.zl");
                 SetData();
             }
             catch
@@ -43,7 +43,7 @@ namespace ZoomLoginer
             }
         }
 
-        public void Save(string day)
+        public void Save(string fileName)
         {
             List<string> dList = new List<string>();
             for(int i = 0; i < Rows.Count - 1; i++)
@@ -53,7 +53,7 @@ namespace ZoomLoginer
                 dList.Add(str);
             }
 
-            File.WriteAllLines($"./data/{day}.zl",dList.ToArray());
+            File.WriteAllLines($"./data/{fileName}.zl",dList.ToArray());
 
             EventProcessor.Load();
         }

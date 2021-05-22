@@ -4,7 +4,7 @@ using System.IO;
 
 namespace ZoomLoginer
 {
-     static class EventProcessor
+    static class EventProcessor
     {
 
         public static string[] eDays = { "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday" };
@@ -12,7 +12,14 @@ namespace ZoomLoginer
         public static string Today;
         public static string JapaneseToday;
         public static int PreTime = 5;
+        public static int CurentClassNum = 0;
 
+        public static string PreClassName { 
+            get
+            {
+                return URLs[CurentClassNum];
+            }
+        }
         public static List<DateTime> Times = new List<DateTime>();
         public static List<string> URLs = new List<string>();
         public static List<string> EventNames = new List<string>();
@@ -43,7 +50,7 @@ namespace ZoomLoginer
                 URLs = new List<string>();
                 EventNames = new List<string>();
 
-                //  なんだここ　無駄やんけ
+                //  なんだここ
                 /*
                 Disassembly(File.ReadAllLines($"./data/{JapaneseToday}.zl"), DisassembleMode.NormalEvent);
                 Disassembly(File.ReadAllLines($"./data/event.zl"), DisassembleMode.SpecialEvent);
@@ -63,6 +70,11 @@ namespace ZoomLoginer
             {
                 System.Windows.Forms.MessageBox.Show("ファイルが開けませんでした\nイベントの再登録をしてください。", "File Error", System.Windows.Forms.MessageBoxButtons.OK, System.Windows.Forms.MessageBoxIcon.Error );
             }
+        }
+
+        public static void PreEventAceess()
+        {
+
         }
         
         static void Disassembly(string[] data, DisassembleMode mode)
